@@ -1,3 +1,5 @@
+# Figure 1: Partitioned Linkage Disequilibrium Score Regression analysis for open chromatin regions of all cell types.
+
 library(ggplot2)
 library(ggsci)
 library(egg)

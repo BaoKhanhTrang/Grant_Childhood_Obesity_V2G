@@ -1,3 +1,5 @@
+# Figure 4: Colocalization of target effector genes with eQTLs
+
 library(nVennR)
 library(reshape2)
 library(dendextend)

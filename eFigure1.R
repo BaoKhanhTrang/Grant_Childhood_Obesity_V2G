@@ -1,5 +1,20 @@
+# eFigure 1: Mapping statistics of the childhood obesity-associated loci
 
+library(reshape2)
+library(ggplot2)
+library(patchwork)
+library(nVennR)
+library(UpSetR)
+library(eulerr)
+library(tidyverse)  
+proxy=readRDS("proxy.rds")
+allv2g=readRDS("allv2g.rds")
 
+SNP = list(total = proxy$proxy_rsid,
+            inLoops=rownames(snp_in_loop)[which(rowSums(snp_in_loop)!=0)],
+           openLoop = rownames(snp_in_openloop)[which(rowSums(snp_in_openloop)!=0)],
+           inOCR = rownames(snp_in_ocr)[which(rowSums(snp_in_ocr)!=0)],
+           inCRE = unique(allv2g$proxy_rsid))
 
 # A panel
 i=1
@@ -176,4 +191,16 @@ g19 = plot(euler_plot,main = paste(loci$loci[i]),quantities = TRUE,fill=c("white
 pdf("CB_EGG.topLD_SNPs within each locus - euler.pdf",height = 15,width = 15)
 gridExtra::grid.arrange(g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,
              g11,g12,g13,g14,g15,g16,g17,g18,g19, ncol = 5)
+dev.off()
+
+# Panel B 
+upse = NULL
+for(i in 1:nrow(allstat)){
+  id = unique(allv2g$locus[which(allv2g$Name==allstat$Name[i])])
+  upse[[i]] = id
+}
+names(upse)=paste(allstat$Name)
+pdf("CB_EGG.topLD_locus within cREs _ intersection between cell types.pdf",height = 7,width = 4)
+upset(fromList(upse), order.by = "degree",nsets = 58,nintersects = NA,mb.ratio = c(0.3, 0.7),set_size.show=T,
+      mainbar.y.label = "#Loci Intersections", sets.x.label = "Loci per Cell type",keep.order = F)
 dev.off()

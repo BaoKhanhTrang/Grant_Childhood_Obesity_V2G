@@ -1,3 +1,5 @@
+# Figure 2: Mapping 771 proxies to the open chromatin regions of each cell type
+
 library(nVennR)
 library(ggplot2)
 library(UpSetR)
